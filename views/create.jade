@@ -1,0 +1,149 @@
+doctype html
+html
+  head
+    title Main
+    meta(charset='utf-8')
+    style.
+
+        label {
+            float: left;
+            clear: left;
+            width: 7em;
+        }
+        .term{
+            padding-left: 40px;
+        }
+        div{
+            padding-bottom:5px;
+        }
+    link(rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    link(rel='stylesheet' href='/resources/demos/style.css')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script.
+        $( function() {
+            $.datepicker.setDefaults({
+                changeYear:true,
+                changeMonth:true,
+                dateFormat: 'yy.mm.dd',
+                prevText: '이전 달',
+                nextText: '다음 달',
+                monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                dayNames: ['일','월','화','수','목','금','토'],
+                dayNamesShort: ['일','월','화','수','목','금','토'],
+                dayNamesMin: ['일','월','화','수','목','금','토'],
+                showMonthAfterYear: true,
+                changeMonth: true,
+                changeYear: true,
+                yearSuffix: '년',
+                yearRange: 'c-99:c+99'
+            });
+            $("#install_day").datepicker();                    
+            $("#open_day").datepicker(); 
+            $('#project_sdate').datepicker();
+            $('#project_sdate').datepicker("option", "maxDate", $("#project_edate").val());
+            $('#project_sdate').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#project_edate").datepicker( "option", "minDate", selectedDate );
+            });
+
+            $('#project_edate').datepicker();
+            $('#project_edate').datepicker("option", "minDate", $("#project_sdate").val());
+            $('#project_edate').datepicker("option", "onClose", function ( selectedDate ) {
+                $("#project_sdate").datepicker( "option", "maxDate", selectedDate );
+            });
+            $('#test_sdate').datepicker();
+            $('#test_sdate').datepicker("option", "maxDate", $("#test_edate").val());
+            $('#test_sdate').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#test_edate").datepicker( "option", "minDate", selectedDate );
+            });
+
+            $('#test_edate').datepicker();
+            $('#test_edate').datepicker("option", "minDate", $("#test_sdate").val());
+            $('#test_edate').datepicker("option", "onClose", function ( selectedDate ) {
+                $("#test_sdate").datepicker( "option", "maxDate", selectedDate );
+            });
+        });
+        $(document).ready(function(){
+            $("#postCreate").on("click", function(){
+                var name = $('input[name=name]').val();
+                var information = $('input[name=information]').val();
+                var manager = $('input[name=manager]').val();
+                var channel = $('input[name=channel]').val();
+                var configtype = $('input[name=configtype]').val();
+                var project_term1 = $('input[name=project_term1]').val();
+                var project_term2 = $('input[name=project_term2]').val();
+                var install_day = $('input[name=install_day]').val();
+                var test_term1 = $('input[name=test_term1]').val();
+                var test_term2 = $('input[name=test_term2]').val();
+                var open_day = $('input[name=open_day]').val();
+
+                $.ajax({
+                    url : "/main/ajax/create",
+                    type : "POST",
+                    dataType : "JSON",
+                    data : {
+                        "name" : name,
+                        "information":information,
+                        "manager":manager,
+                        "channel":channel,
+                        "configtype":configtype,
+                        "project_term1":project_term1,
+                        "project_term2":project_term2,
+                        "install_day":install_day,
+                        "test_term1":test_term1,
+                        "test_term2":test_term2,
+                        "open_day":open_day
+                    },
+                    success:function(data){
+                        location.href="/main"
+                    },
+                    error : function(error) {
+                        alert("비어있는 항목이 있거나 회사이름이 중복됬습니다.");
+
+                    },
+
+                })
+            });
+        })
+  body
+    div
+        p
+        form(action="/main/create" method="post")
+            div
+                label 사이트 이름
+                input(type="text" name="name")
+            div
+                label 사이트 설명
+                input(type="text" name="information")
+            div
+                label 사이트 담당자
+                input(type="text" name="manager")
+            div
+                label 채널수
+                input(type="text" name="channel")
+            div
+                label 구성타입
+                input(type="text" name="configtype") 
+            div 기간
+                div(class="term")     
+                    div
+                        label 프로젝트 기간
+                        input(type="text" id="project_sdate" name="project_term1")
+                        input(type="text" id="project_edate" name="project_term2")
+                    div
+                        label 설치일
+                        input(type="text" id="install_day" name="install_day")
+                    div
+                        label 테스트기간
+                        input(type="text" id="test_sdate" name="test_term1")
+                        input(type="text" id="test_edate" name="test_term2")
+
+                    div
+                        label 오픈일
+                        input(type="text" id="open_day" name="open_day")
+            div
+                input(type="submit" value="저장하기")
+        button(onclick="location.href='/main'") 뒤로가기
+    button(id='postCreate') 추가하기2
+

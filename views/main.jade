@@ -1,0 +1,93 @@
+doctype html
+html
+  head
+    title Main
+    meta(charset='utf-8')
+    style.
+        body{
+            margin:0;
+        }
+
+        h1 {
+            font-size:45px;
+            text-align: center;
+            border-bottom:1px solid gray;
+            margin:0;
+            padding:40px;
+        }
+        ul{
+            border-right:1px solid gray;
+            width:100px;
+            margin:0;
+            padding:20px;
+        }
+        #grid{
+            display: grid;
+            grid-template-columns: 150px 1fr;
+        }
+        #grid ul{
+            padding-left:33px;
+        }
+        #grid #article{
+            padding-left:25px;
+        }
+        @media(max-width:800px){
+            #grid{
+            display: block;
+            }
+            ol{
+            border-right:none;
+            }
+            h1 {
+            border-bottom:none;
+            }
+        }
+        .button1{
+          float:left;
+          padding-top:30px;
+          padding-left:30px;
+          
+        } 
+        .button2{
+          float:left;
+          padding-top:30px;
+           
+
+        }
+        .button3{
+          float:left;
+          padding-top:30px;
+
+        }
+
+
+  body
+    div(class="button1" align="left")   
+      button(onclick="location.href='/main/create'") 추가
+    div(class="button2" align="left")   
+      form(class="form1" action='/main/site/update/'+`${name}` method='post')
+        input(type="submit" value="수정")        
+    div(class="button3" align="left")          
+      form(class="form1" method="post" action='/main/site/delete/'+`${name}`)
+        input( type="submit" value="삭제")
+      button(onclick="location.href='/main/ajax/create'") 추가2
+    
+    h1
+
+    #grid
+      ul
+        -for(var i=0; i<Site.length; i++)
+          a(href='/main/site/'+ `${Site[i]}`)
+            li= Site[i]       
+      #article
+        h3 사이트
+          h4 -사이트 이름 : #{name}
+          h4 -사이트 설명 : #{information}
+          h4 -사이트 담당자 : #{manager}
+          h4 -채널 수 : #{channel}
+          h4 -구성타입 : #{configtype}
+          h4 -기간 
+          h4 -프로젝트 기간 : #{project_term1} ~ #{project_term2} 
+          h4 -설치일 : #{install_day}
+          h4 -테스트기간 : #{test_term1} ~ #{test_term2}
+          h4 -오픈일 : #{open_day}

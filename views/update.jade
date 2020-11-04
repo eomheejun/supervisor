@@ -1,0 +1,127 @@
+doctype html
+html
+  head
+    title Main
+    meta(charset='utf-8')
+    style.
+        body{
+            margin:0;
+        }
+
+        h1 {
+            font-size:45px;
+            text-align: center;
+            border-bottom:1px solid gray;
+            margin:0;
+            padding:20px;
+        }
+        ul{
+            border-right:1px solid gray;
+            width:100px;
+            margin:0;
+            padding:20px;
+        }
+        #grid{
+            display: grid;
+            grid-template-columns: 150px 1fr;
+        }
+        #grid ul{
+            padding-left:33px;
+        }
+        #grid #article{
+            padding-left:25px;
+        }
+        @media(max-width:800px){
+            #grid{
+            display: block;
+            }
+            ol{
+            border-right:none;
+            }
+            h1 {
+            border-bottom:none;
+            }
+        }3
+        .button{
+            text-align: center;
+
+        }
+    link(rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    link(rel='stylesheet' href='/resources/demos/style.css')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')    
+    script.
+      $(function() {
+        $.datepicker.setDefaults({
+          changeYear:true,
+          changeMonth:true,
+          dateFormat: 'yy.mm.dd',
+          prevText: '이전 달',
+          nextText: '다음 달',
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNames: ['일','월','화','수','목','금','토'],
+          dayNamesShort: ['일','월','화','수','목','금','토'],
+          dayNamesMin: ['일','월','화','수','목','금','토'],
+          showMonthAfterYear: true,
+          changeMonth: true,
+          changeYear: true,
+          yearSuffix: '년',
+          yearRange: 'c-99:c+99'
+        });
+        $("#install_day").datepicker();                    
+        $("#open_day").datepicker(); 
+        $('#project_sdate').datepicker();
+        $('#project_sdate').datepicker("option", "onClose", function ( selectedDate ) {
+        $("#project_edate").datepicker( "option", "minDate", selectedDate );
+        });
+
+        $('#project_edate').datepicker();
+        $('#project_edate').datepicker("option", "minDate", $("#project_sdate").val());
+        $('#project_edate').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#project_sdate").datepicker( "option", "maxDate", selectedDate );
+        });
+        $('#test_sdate').datepicker();
+        $('#test_sdate').datepicker("option", "maxDate", $("#test_edate").val());
+        $('#test_sdate').datepicker("option", "onClose", function ( selectedDate ) {
+        $("#test_edate").datepicker( "option", "minDate", selectedDate );
+        });
+
+        $('#test_edate').datepicker();
+        $('#test_edate').datepicker("option", "minDate", $("#test_sdate").val());
+        $('#test_edate').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#test_sdate").datepicker( "option", "maxDate", selectedDate );
+        });
+      });
+  body
+    #grid
+      ul
+        -for(var i=0; i<Site.length; i++)
+          a(href='/main/site/'+ `${Site[i]}`)
+            li= Site[i]       
+      #article
+        h3 사이트
+        form(class="form1" action='/main/site/recreate/'+`${name}` method='post')
+          h4 -사이트 이름 :
+            input(type="text" name="name" value=`${name}`)
+          h4 -사이트 설명 : 
+            input(type="text" name="information" value=`${information}`)
+          h4 -사이트 담당자 :
+            input(type="text" name="manager" value=`${manager}`)
+          h4 -채널 수 : 
+            input(type="text" name="channel" value=`${channel}`)
+          h4 -구성타입 : 
+            input(type="text" name="configtype" value=`${configtype}`)
+          h4 -기간 
+          h4 -프로젝트 기간 : 
+            input(type="text" id="project_sdate" name="project_term1" value=`${project_term1}`)
+            input(type="text" id="project_edate" name="project_term2" value=`${project_term2}`)
+          h4 -설치일 : 
+            input(type="text" id="install_day" name="install_day" value=`${install_day}`)
+          h4 -테스트기간 : 
+            input(type="text" id="test_sdate" name="test_term1" value=`${test_term1}`)
+            input(type="text" id="test_edate" name="test_term2" value=`${test_term2}`)
+          h4 -오픈일 : 
+            input(type="text" id="open_day" name="open_day" value=`${open_day}`)
+          input(type="submit" value="저장")        
+        button(onclick="location.href='/main'") 뒤로가기
