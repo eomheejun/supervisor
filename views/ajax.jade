@@ -64,6 +64,8 @@ html
     script(src='https://code.jquery.com/jquery-1.12.4.js')
     script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
     script.
+        //siteinfo(각 사이트들)클릭시 ajax 비동기 통신 "/main/site/" + $(this).attr("data-text") == /main/site/:name에서
+        //GET방식으로 접근 후에 로부터 값을 받아온다
         $(document).ready(function(){
             $(".siteinfo").on("click", function(){
                 $.ajax({
