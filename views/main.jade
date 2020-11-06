@@ -59,8 +59,7 @@ html
           padding-top:30px;
 
         }
-
-
+    
   body
     div(class="button1" align="left")   
       button(onclick="location.href='/main/create'") 추가
@@ -71,7 +70,6 @@ html
       form(class="form1" method="post" action='/main/site/delete/'+`${name}`)
         input( type="submit" value="삭제")
       button(onclick="location.href='/main/ajax/create'") 추가2
-    
     h1
 
     #grid
@@ -80,7 +78,7 @@ html
           a(href='/main/site/'+ `${Site[i]}`)
             li= Site[i]       
       #article
-        h3 사이트
+        h3(id="siteinfo") 사이트
           h4 -사이트 이름 : #{name}
           h4 -사이트 설명 : #{information}
           h4 -사이트 담당자 : #{manager}

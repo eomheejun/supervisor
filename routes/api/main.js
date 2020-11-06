@@ -22,6 +22,21 @@ router.get('/', (req, res) => {
         }
     })
 });
+router.get('/ajax', (req, res) => {
+    siteModel.find(function(error, site){
+        if(error){
+            console.log(error);
+        }else{
+            global.list = [];
+            for(var i=0;i<site.length;i++)
+            {
+                list.push(site[i].name);
+            }
+            res.render("ajax",{Site:list});
+
+        }
+    })
+});
 
 router.get('/site/:name',(req, res)=>{
     Site.findOne({name:req.params.name})
@@ -32,7 +47,21 @@ router.get('/site/:name',(req, res)=>{
                 })
             }
             else{
-                res.render("main", {
+                var data = {
+                    Site:list,
+                    name:site.name,
+                    information:site.information,
+                    manager:site.manager,
+                    channel:site.channel,
+                    configtype:site.configtype,
+                    project_term1:site.term[0].project_term1,
+                    project_term2:site.term[0].project_term2,
+                    install_day:site.term[0].install_day,
+                    test_term1:site.term[0].test_term1,
+                    test_term2:site.term[0].test_term2,
+                    open_day:site.term[0].open_day
+                }
+                res.json({
                     Site:list,
                     name:site.name,
                     information:site.information,

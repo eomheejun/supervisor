@@ -21,49 +21,6 @@ html
     script(src='https://code.jquery.com/jquery-1.12.4.js')
     script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
     script.
-        $( function() {
-            $.datepicker.setDefaults({
-                changeYear:true,
-                changeMonth:true,
-                dateFormat: 'yy.mm.dd',
-                prevText: '이전 달',
-                nextText: '다음 달',
-                monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                dayNames: ['일','월','화','수','목','금','토'],
-                dayNamesShort: ['일','월','화','수','목','금','토'],
-                dayNamesMin: ['일','월','화','수','목','금','토'],
-                showMonthAfterYear: true,
-                changeMonth: true,
-                changeYear: true,
-                yearSuffix: '년',
-                yearRange: 'c-99:c+99'
-            });
-            $("#install_day").datepicker();                    
-            $("#open_day").datepicker(); 
-            $('#project_sdate').datepicker();
-            $('#project_sdate').datepicker("option", "maxDate", $("#project_edate").val());
-            $('#project_sdate').datepicker("option", "onClose", function ( selectedDate ) {
-            $("#project_edate").datepicker( "option", "minDate", selectedDate );
-            });
-
-            $('#project_edate').datepicker();
-            $('#project_edate').datepicker("option", "minDate", $("#project_sdate").val());
-            $('#project_edate').datepicker("option", "onClose", function ( selectedDate ) {
-                $("#project_sdate").datepicker( "option", "maxDate", selectedDate );
-            });
-            $('#test_sdate').datepicker();
-            $('#test_sdate').datepicker("option", "maxDate", $("#test_edate").val());
-            $('#test_sdate').datepicker("option", "onClose", function ( selectedDate ) {
-            $("#test_edate").datepicker( "option", "minDate", selectedDate );
-            });
-
-            $('#test_edate').datepicker();
-            $('#test_edate').datepicker("option", "minDate", $("#test_sdate").val());
-            $('#test_edate').datepicker("option", "onClose", function ( selectedDate ) {
-                $("#test_sdate").datepicker( "option", "maxDate", selectedDate );
-            });
-        });
         $(document).ready(function(){
             $("#postCreate").on("click", function(){
                 var name = $('input[name=name]').val();
@@ -106,42 +63,43 @@ html
                 })
             });
         })
+        
   body
     div
         p
         form(action="/main/create" method="post")
             div
                 label 사이트 이름
-                input(type="text" name="name")
+                input(type="text" maxlength="6" name="name")
             div
                 label 사이트 설명
-                input(type="text" name="information")
+                input(type="text" maxlength="30" name="information")
             div
                 label 사이트 담당자
-                input(type="text" name="manager")
+                input(type="text" maxlength="6" name="manager")
             div
                 label 채널수
-                input(type="text" name="channel")
+                input(type="text" maxlength="6" name="channel")
             div
                 label 구성타입
-                input(type="text" name="configtype") 
+                input(type="text" maxlength="6" name="configtype") 
             div 기간
                 div(class="term")     
                     div
                         label 프로젝트 기간
-                        input(type="text" id="project_sdate" name="project_term1")
-                        input(type="text" id="project_edate" name="project_term2")
+                        input(type="date" min="2000-01-01" name="project_term1")
+                        input(type="date" min="2000-01-01" name="project_term2")
                     div
                         label 설치일
-                        input(type="text" id="install_day" name="install_day")
+                        input(type="date" min="2000-01-01" name="install_day")
                     div
                         label 테스트기간
-                        input(type="text" id="test_sdate" name="test_term1")
-                        input(type="text" id="test_edate" name="test_term2")
+                        input(type="date" min="2000-01-01" name="test_term1")
+                        input(type="date" min="2000-01-01" name="test_term2")
 
                     div
                         label 오픈일
-                        input(type="text" id="open_day" name="open_day")
+                        input(type="date" min="2000-01-01" id="open_day" name="open_day")
             div
                 input(type="submit" value="저장하기")
         button(onclick="location.href='/main'") 뒤로가기
